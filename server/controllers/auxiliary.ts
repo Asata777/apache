@@ -424,5 +424,5 @@ function roomWaitingTimer(duration: number, full: boolean) {
 }
 
 export function getUrl(dir: string, url: string): string {
-    return path.join(dir, `${+process.env.PORT ? '' : ''}${url}`);
+    return path.join(dir, `${+process.env.PORT ? '../' : ''}${url}`);
 }
