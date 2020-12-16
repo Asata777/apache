@@ -423,6 +423,7 @@ function roomWaitingTimer(duration: number, full: boolean) {
     }, 1000);
 }
 
+
 export function getUrl(dir: string, url: string): string {
     return path.join(dir, `${+process.env.PORT ? '../' : ''}${url}`);
 }
