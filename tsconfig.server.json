@@ -1,0 +1,14 @@
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "outDir": "server/server-dist",
+    "rootDir": "./server",
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "strict": false,
+    "moduleResolution": "node",
+    "target": "es6",
+    "skipLibCheck": true
+  },
+  "include": ["./server"]
+}

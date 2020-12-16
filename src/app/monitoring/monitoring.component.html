@@ -1,0 +1,119 @@
+<div id="main_area" class="mod-info">
+    <div id="mod_info_area" class="mod-info-area" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <div id="no_moder_info" [hidden]="hideInfo">
+            <h2>Ждем игру!</h2>
+            <h5>Если долго нет информации, возможно Юлия Иванова не в игре</h5>
+            <div id="loading"></div>
+        </div>
+        <h2 class="offline" [hidden]="isOffline">Юлия Иванова сейчас не в сети!</h2>
+        <div *ngFor="let info of messages">
+            <div [ngSwitch]="info.type">
+                <div *ngSwitchCase="'roles'">
+                    <div class="info-bgrd">
+                        <div class="img" [style.backgroundImage]="'url('+ info.skin_url +')'"></div>
+                        <div class="role-title">
+                            <span class="nick">{{info.nick}}</span>
+                            {{info.text}}
+                            <span class="name">{{info.role_name}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div *ngSwitchCase="'power'">
+                    <div class="power-info">
+                        <div class="img" [style.backgroundImage]="'url('+ info.power_url +')'">
+                        </div>
+                        <div class="power-title">&nbsp;получила супер-силу «{{info.power_name}}» -
+                            {{info.power_description}}</div>
+                    </div>
+                </div>
+                <div *ngSwitchCase="'move'">
+                    <div *ngIf="info.name">
+                        <div [ngSwitch]="info.name">
+                            <div *ngSwitchCase="'night_act'">
+                                <div *ngIf="info.role_exist" class="info-bgrd">
+                                    <div class="img" [style.backgroundImage]="'url('+ info.act_uri +')'"></div>
+                                    <div class="role-title">
+                                        <span class="nick">{{info.from_nick}}: </span>
+                                        {{info.teammate_act}}
+                                        <span class="nick">{{info.to_nick}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'bifacial_found'">
+                                <div *ngIf="info.teammates">
+                                    <div *ngFor="let teammate of info.teammates">
+                                        <div class="info-bgrd">
+                                            <div class="img" [style.backgroundImage]="'url('+ info.skin_url +')'"></div>
+                                            <div class="role-title">
+                                                <span class="nick">{{teammate.nick}}</span>
+                                                - <span class="name">{{teammate.role_name}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="!info.teammates">
+                                    <div class="info-bgrd">
+                                        <div class="img" [style.backgroundImage]="'url('+ info.killer_url +')'"></div>
+                                        <div class="power-title">
+                                            <span class="nick">{{info.nick}}</span>
+                                            {{info.description}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'com_search'">
+                                <div class="info-bgrd com-search">
+                                    Вы теперь знаете, что <span class="nick">{{info.nick}}</span> -
+                                    {{info.role_name}}
+                                </div>
+                            </div>
+                            <div *ngSwitchCase="'serg_promotion'">
+                                <div class="info-bgrd">
+                                    <div class="img" [style.backgroundImage]="'url('+ info.comissar_url +')'"></div>
+                                    <div class="power-title">
+                                        <span class="nick">{{info.nick}}</span>
+                                        - Комиссар (повышение)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngSwitchCase="'private_message'">
+                    <p>
+                        {{info.screen_time}}
+                        <span class="nick">{{info.from_nick}}</span>
+                        » приватно »
+                        <span class="nick">{{info.to_nick}}</span>
+                        {{info.message}}
+                    </p>
+                </div>
+                <div *ngSwitchCase="'maf_chat'">
+                    <p>
+                        [Чат мафии]:
+                        <span class="nick">{{info.from_nick}}</span>: {{info.message}}
+                    </p>
+                </div>
+                <div *ngSwitchCase="'yak_chat'">
+                    <p>
+                        [Чат Якудза]:
+                        <span class="nick">{{info.from_nick}}</span>: {{info.message}}
+                    </p>
+                </div>
+                <div *ngSwitchCase="'players_and_auction'">
+                    <div>
+                        <p class="room-id">ID комнаты: {{info.room_id}}</p>
+                    </div>
+                    <div class="info-bgrd">
+                        <div class="img" [style.backgroundImage]="'url('+ info.auction_uri +')'"></div>
+                        <div class="role-title">
+                            <span class="nick">[Аукцион]</span>
+                            <span class="name"> - {{info.auction_name}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="viewers">{{client_text}}</div>
+    </div>
+</div>

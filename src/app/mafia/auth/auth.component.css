@@ -1,0 +1,31 @@
+.auth {
+    padding: 25px;
+}
+
+/* .auth input,
+.auth button {
+    background: none;
+    color: white;
+    border: 2px solid;
+    border-radius: 25px;
+}
+
+.auth input {
+    padding: 7px 3px;
+}
+
+.auth input::placeholder {
+    color: rgb(228, 224, 224);
+}
+
+.auth button {
+    padding: 4px 29px;
+    font-size: 20px;
+    cursor: pointer;
+} */
+
+.auth a {
+    color: #e0dede;
+    font-size: 14px;
+    margin-right: 5px;
+}

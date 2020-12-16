@@ -1,0 +1,68 @@
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="_id">
+        <th mat-header-cell *matHeaderCellDef> _id. </th>
+        <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="maf_id">
+        <th mat-header-cell *matHeaderCellDef> Maf_id </th>
+        <td mat-cell *matCellDef="let element"> {{element.maf_id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="nick">
+        <th mat-header-cell *matHeaderCellDef> Nick </th>
+        <td mat-cell *matCellDef="let element"> {{element.nick}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="active">
+        <th mat-header-cell *matHeaderCellDef> Active </th>
+        <td mat-cell *matCellDef="let element"> {{element.active}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="count">
+        <th mat-header-cell *matHeaderCellDef> Count </th>
+        <td mat-cell *matCellDef="let element"> {{element.count}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="registered">
+        <th mat-header-cell *matHeaderCellDef> Registered </th>
+        <td mat-cell *matCellDef="let element"> {{element.registered}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="enc_id">
+        <th mat-header-cell *matHeaderCellDef> Enc_id </th>
+        <td mat-cell *matCellDef="let element"> {{element.enc_id}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="activity">
+        <th mat-header-cell *matHeaderCellDef> Activity </th>
+        <td mat-cell *matCellDef="let element"> {{element.activity}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element">
+
+            <mat-menu #appMenu="matMenu">
+                <ng-template matMenuContent>
+                    <button mat-menu-item>
+                        <mat-icon>edit</mat-icon>
+                        <span>Edit</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>delete</mat-icon>
+                        <span>Delete</span>
+                    </button>
+                </ng-template>
+            </mat-menu>
+            <button mat-icon-button [matMenuTriggerFor]="appMenu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            <!-- {{element.action}} -->
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

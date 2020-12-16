@@ -1,0 +1,15 @@
+{
+    "default_hash": "d6fe48da94710d2b988aac7e14a6836c",
+    "default_headers": {
+        "X-Forwarded-For": "185.72.204.233",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36"
+    },
+    "db_uri": "mongodb+srv://asata:striker@asataproject-81wgg.mongodb.net/",
+    "white_list": [
+        "asata.club", "mafia-rules.net", "api.vk.com", "localhost:4200",
+        "vk.com", "localhost", "localhost:8080", "asata-angular.herokuapp.com",
+        "mafia-rules.net", "bestmafia.com", "bestmafia.ru"
+    ],
+    "paid_v": "0.50",
+    "free_v": "0.19"
+}

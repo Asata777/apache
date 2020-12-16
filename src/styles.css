@@ -1,0 +1,102 @@
+/* @import 'app/mafia/registr/registr.component.css'; */
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+@import "~@ng-select/ng-select/themes/default.theme.css";
+* {
+    outline: none;
+}
+
+body {
+    background: linear-gradient(-45deg, #52a9a8, #5c7dfb);
+    font-family: sans-serif, Arial, Tahoma, Verdana;
+    background-attachment: fixed;
+}
+
+html,
+body {
+    margin: 0px;
+    height: 100%;
+    width: 100%;
+}
+
+#main_area {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 75px;
+    color: #dad6d6;
+    text-align: center;
+    margin: 0 auto;
+    max-height: 100%;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+h2 {
+    color: yellow;
+}
+
+[ripple] {
+    position: relative;
+    overflow: hidden;
+}
+
+[ripple]::before {
+    content: '';
+    position: absolute;
+    display: block;
+    background: white;
+    border-radius: 50%;
+    pointer-events: none;
+    top: calc(var(--y) * 1px);
+    left: calc(var(--x) * 1px);
+    width: calc(var(--d) * 1px);
+    height: calc(var(--d) * 1px);
+    opacity: calc(var(--o, 1) * 0.3);
+    transition: calc(var(--t, 0) * 600ms) linear;
+    transform: translate(-50%, -50%) scale(var(--s, 1));
+    transform-origin: center;
+}
+
+#loading {
+    height: 40px;
+    width: 40px;
+    margin: auto;
+    border-radius: 25px;
+    background: linear-gradient(#78aad7, #78aad7) padding-box, linear-gradient(to right, #5794d1 50%, #ffffff) border-box;
+    border: 2px solid transparent;
+    animation: .3s load cubic-bezier(0.24, 0.21, 1, 1) infinite;
+}
+
+@keyframes load {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+#main_area ::-webkit-scrollbar {
+    width: 6px;
+    background-color: #5699c7b5;
+    border-radius: 25px;
+}
+
+#main_area ::-webkit-scrollbar-thumb {
+    background: #3776d8;
+    border-radius: 25px;
+}
+
+app-root {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+app-shop,
+app-tops,
+app-moders {
+    width: 100%;
+    display: flex;
+}

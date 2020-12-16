@@ -1,0 +1,96 @@
+.admins {
+    max-width: 600px;
+    padding: 50px;
+    height: 100%;
+}
+
+.sec {
+    margin: 0;
+    padding: 10px;
+    max-height: 50vh;
+    overflow: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.sec li {
+    list-style: none;
+    width: 190px;
+}
+
+.sec li .img a {
+    display: block;
+    height: 80px;
+    width: 80px;
+    transition: box-shadow .3s;
+    margin: auto;
+    border-radius: 50px;
+}
+
+.sec li .img a:hover {
+    box-shadow: 0 0 10px 1px white;
+}
+
+.sec li .nick {
+    color: #4875c5;
+    font-weight: bold;
+    margin: 5px 0 10px 0;
+}
+
+.category {
+    display: -webkit-inline-box;
+    list-style: none;
+    padding: 0;
+}
+
+.category li:not(:last-child) {
+    margin-right: 20px;
+}
+
+.category li label {
+    padding: 10px 30px;
+    color: #0e62ff;
+    background: 0;
+    border: 2px solid;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: .5s;
+    display: block;
+    width: 130px;
+}
+
+.category li label:hover {
+    color: white;
+}
+
+.category li label:active {
+    transition: 0s;
+    box-shadow: 0 0 20px 1px white;
+}
+
+.category li label.active {
+    background: #0e62ff;
+    color: white;
+}
+
+@media only screen and (max-width: 600px) {
+    .admins {
+        padding: 10px !important;
+        border-radius: 30px !important;
+        margin-top: 65px !important;
+    }
+    .category li label:last-child {
+        margin-top: 10px;
+    }
+    h1 {
+        font-size: 21px;
+    }
+    .category {
+        display: inline-block !important;
+    }
+    .sec li {
+        max-width: 150px;
+    }
+}

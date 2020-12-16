@@ -1,0 +1,25 @@
+<!-- <div id="main_area" class="auth">
+  <a
+    href="https://oauth.vk.com/authorize?client_id=7249229&display=page&redirect_uri=http://localhost:8080/mafia/vk_auth&response_type=token&v=5.103&state={{hash}}">
+    Авторизация ВК
+  </a>
+  <a href="/mafia/ok_auth">Авторизация ОК</a>
+</div> -->
+<div id="main_area" class="auth">
+  <h3>Войдите прямо сейчас!</h3>
+  <p>
+    <mat-form-field>
+      <input [(ngModel)]="nick" matInput placeholder="Введите ник" (keyup.enter)="Auth(nick, password);">
+    </mat-form-field>
+  </p>
+  <p>
+    <mat-form-field>
+      <input type="password" [(ngModel)]="password" matInput placeholder="Введите пароль" (keyup.enter)="Auth(nick, password);">
+    </mat-form-field>
+  </p>
+  <p>
+    <button mat-raised-button color="primary" (click)="Auth(nick, password);">Войти</button>
+  </p>
+  <a href="/registr">Регистрация</a>
+  <a href="/forgot">Забыл пароль</a>
+</div>

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="test_style.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <ul class="footerPanel">
+
+    </ul>
+    <div id="bot_menu" class="popup-move bot-menu">
+        <div id="settings_popup" class="setting-popup" hidden>
+            <ul class="bot-ul setting-ul">
+                <li>Некоторые функции</li>
+                <li title="Позволяет передвигать меню в нужное место">
+                    <label for="drag_menu">Подвижное меню</label>
+                    <input type="checkbox" id="drag_menu" onclick="Drag(this);" checked>
+                </li>
+                <li title="Показывает ID игрока при открытии профиля">
+                    <label for="show_id">Показывать ID игрока</label>
+                    <input type="checkbox" id="show_id" onclick="showProfileId(this);" checked>
+                </li>
+                <li title="При старте меню, автоматически выбирает метод входа в комнату">
+                    <label for="auto_start">Автозапуск меню</label>
+                    <input type="checkbox" id="auto_start" checked>
+                </li>
+            </ul>
+            <ul class="bot-ul setting-ul">
+                <li>Информация об меню</li>
+                <li id="bought">Куплено: </li>
+                <li id="duration">Доступно до: </li>
+            </ul>
+            <ul class="bot-ul setting-ul">
+                <li>Контакты</li>
+                <li><a href="https://vk.com/id184062213" target="_blank">ВК разработчика</a></li>
+                <li><a href=https://vk.com/bot.menu target="_blank">Группа в ВК</a></li>
+            </ul>
+        </div>
+
+        <div class="menu-head">
+            <label class="mh-label settings" title="Настройки">
+                <svg class="mh-svg">
+                    <polygon
+                        points="3.24 5.61 2.21 7.22 4.05 8.91 4.2 12.97 2.21 14.94 3.29 16.53 5.73 15.62 9.49 18.06 9.88 20.32 11 20.32 11 22 8.43 22 7.91 19.06 5.52 17.5 2.62 18.59 0 14.74 2.45 12.31 2.35 9.65 0 7.5 2.5 3.59 5.55 4.6 7.77 3.28 8.45 0 11 0 11 1.68 9.86 1.68 9.31 4.33 5.77 6.44 3.24 5.61"
+                        class="svg-polygon"></polygon>
+                    <polygon
+                        points="18.76 5.61 19.79 7.22 17.95 8.91 17.8 12.97 19.79 14.94 18.71 16.53 16.27 15.62 12.51 18.06 12.12 20.32 11 20.32 11 22 13.57 22 14.09 19.06 16.48 17.5 19.38 18.59 22 14.74 19.55 12.31 19.65 9.65 22 7.5 19.5 3.59 16.45 4.6 14.23 3.28 13.55 0 11 0 11 1.68 12.14 1.68 12.69 4.33 16.23 6.44 18.76 5.61"
+                        class="svg-polygon"></polygon>
+                    <circle class="svg-circle" cx="11" cy="11" r="3"></circle>
+                </svg>
+                <input type="checkbox" hidden id="setting">
+            </label>
+            <label class="mh-label menu-close" onclick="bot_menu.hidden = true;">
+                <svg class="mh-svg">
+                    <rect class="svg-rect" x="-3.08" y="9.52" width="28.16" height="2.95"
+                        transform="translate(-4.56 11) rotate(-45)" />
+                    <rect class="svg-rect" x="9.52" y="-3.08" width="2.95" height="28.16"
+                        transform="translate(-4.56 11) rotate(-45)" />
+                </svg>
+            </label>
+        </div>
+        <div class="menu-content">
+            <ul id="header" class="bot-ul">
+                <li class="sep">
+                    <label>Создать<input type="radio" hidden value="1" name="choice"></label>
+                    <label>Прыгать<input type="radio" hidden value="2" name="choice"></label>
+                    <label>Автовход<input type="radio" hidden value="3" name="choice"></label>
+                    <div id="cur" hidden></div>
+                </li>
+                <li class="inputs">
+                    <label for="entry" hidden>Создать: </label>
+                    <label for="entry" hidden>Прыгать: </label>
+                    <label for="entry" hidden>Автовход: </label>
+                    <select id="r_size" hidden>
+                        <option value="8">8</option>
+                        <option value="12">12</option>
+                        <option value="16">16</option>
+                        <option value="20">20</option>
+                    </select>
+                    <select id="l_num" hidden>
+                        <option value="1">Бронза</option>
+                        <option value="2">Серебро</option>
+                        <option value="3">Золото+</option>
+                        <option value="my_league">Моя лига</option>
+                    </select>
+                    <select id="e_type" hidden>
+                        <option value="usual">Обычный</option>
+                        <option value="tail">Хвостик</option>
+                    </select>
+                    <input type="text" placeholder="Ники" id="a_nicks" hidden>
+                    <select id="l_text" hidden>
+                        <option value="arena">Арена</option>
+                        <option value="Бронзовая лига">Бронза</option>
+                        <option value="Серебряная лига">Серебро</option>
+                        <option value="Золотая лига,Платиновая лига,Бриллиантовая лига,Лига Чемпионов,Гроссмейстерская лига">
+                            Золото+
+                        </option>
+                        <option value="all_leagues">Все лиги</option>
+                        <option value="my_league">Моя лига</option>
+                    </select>
+                    <input type="checkbox" id="entry" hidden></label>
+                </li>
+            </ul>
+            <label><input type="checkbox" value="main" name="path" hidden><span class="_arrow">Основное</span></label>
+            <ul id="main" class="bot-ul">
+                <li><label for="money_auk">Брать аукцион:</label>
+                    <input type="text" placeholder="Роли" id="aukrole_m" autocomplete>
+                    <input type="number" min="20" step="20" placeholder="Монет" id="aukcount" autocomplete>
+                    <input type="checkbox" id="money_auk">
+                </li>
+                <li><label for="night_move">Делать ночной ход:</label><input type="checkbox" id="night_move"></li>
+                <li><label for="search_vote">Голосовать по прове:</label><input type="checkbox" id="search_vote"></li>
+                <li><label for="return_vote">Голосовать в ответ:</label><input type="checkbox" id="return_vote"></li>
+                <li><label for="b_verifying">Голосовать по находке:</label><input type="checkbox" id="b_verifying"></li>
+                <li><label for="aux_votes">Дополнительные голоса:</label><input type="checkbox" id="aux_votes"></li>
+                <li><label for="team_help">Помогать напарнику:</label><input type="checkbox" id="team_help"></li>
+                <li><label for="arena">Выполнять арену:</label><input type="checkbox" id="arena"></li>
+                <li><label for="reject_extras">Отбрасывать экстры:</label><input type="checkbox" id="reject_extras"></li>
+                <li><label for="early_auk">Досрочка:</label>
+                    <select id="ear_auk_method">
+                        <option value="1">Обычная</option>
+                        <option value="2">На арене</option>
+                    </select>
+                    <input type="text" placeholder="Роли" id="early_auction" autocomplete>
+                    <input type="checkbox" id="early_auk">
+                </li>
+                <li><label for="room_exit">Выходить с комнаты:</label>
+                    <input type="number" min="1" step="1" placeholder="Сек." id="exit_interval">
+                    <input type="checkbox" id="room_exit">
+                </li>
+                <li><label for="set_move">Заказать ход:</label>
+                    <select id="move_method">
+                        <option value="on_nick">По нику</option>
+                        <option value="self-choice">По указу</option>
+                    </select>
+                    <input type="text" placeholder="Ник" id="set_nick" autocomplete hidden>
+                    <input type="checkbox" id="set_move">
+                </li>
+                <li><label for="clan_tasks">Клановые задания:</label>
+                    <select id="task_method">
+                        <option value="0">Заходить</option>
+                        <option value="1">Создавать</option>
+                    </select>
+                    <input type="checkbox" id="clan_tasks">
+                </li>
+                <li><label for="send_prov">Отправлять проверку:</label><input type="checkbox" id="send_prov"></li>
+                <li><label for="send_msg">Текст по роли:</label><input type="checkbox" id="send_msg"></li>
+                <li><label for="use_bug">Автожук:</label>
+                    <select id="bug_method">
+                        <option value="random">Рандомно</option>
+                        <option value="self-choice">По указу</option>
+                        <option value="on_nick">По нику</option>
+                    </select>
+                    <input type="text" placeholder="Ник" id="bug_nick" autocomplete hidden>
+                    <input type="checkbox" id="use_bug">
+                </li>
+                <li><label for="alarms">Будильники:</label><input type="checkbox" id="alarms"></li>
+                <li><label for="talker">Болтун:</label>
+                    <input type="text" placeholder="Текст через запятую" id="talk_messages">
+                    <input type="checkbox" id="talker">
+                </li>
+                <li><label for="hide_popups">Скрывать вспл. окна:</label><input type="checkbox" id="hide_popups"></li>
+                <li><label for="vk_notif">Оповещение в ВК:</label>
+                    <input type="text" placeholder="ID от ВК" id="peer_id">
+                    <input type="checkbox" id="vk_notif">
+                </li>
+            </ul>
+            <label><input type="checkbox" value="event" name="path" hidden><span class="_arrow">Ивент</span></label>
+            <ul id="event" class="bot-ul">
+                <li><label for="breaks_extras">Открывать мешок:</label><input type="checkbox" id="breaks_extras"></li>
+                <li><label for="take_ability">Брать способность:</label><input type="checkbox" id="take_ability"></li>
+            </ul>
+            <label><input type="checkbox" value="duel" name="path" hidden><span class="_arrow">Дуэль</span></label>
+            <ul id="duel" class="bot-ul">
+                <li><label for="autoak">Автоака:</label><input type="checkbox" id="autoak"></li>
+                <li><label for="under_vote">Голосовать под себя:</label><input type="checkbox" id="under_vote"></li>
+                <li><label for="suicide">Делать суицид:</label><input type="checkbox" id="suicide"></li>
+            </ul>
+            <label><input type="checkbox" value="duel_quests" name="path" hidden><span class="_arrow">Дуэльные квесты</span></label>
+            <ul id="duel_quests" class="bot-ul">
+                <li><label for="start_duel_quests">Начать дуэльные квесты:</label><input type="checkbox" id="start_duel_quests"></li>
+                <li><label for="make_suicide">Делать суицид для ускорения:</label><input type="checkbox" id="make_suicide"></li>
+                <li><label for="use_early_auc">Брать аукцион досрочно:</label><input type="checkbox" id="use_early_auc"></li>
+                <li><label for="money_limit">Тратить монеты до:</label>
+                    <input type="number" min="20" step="20" placeholder="Монеты" id="leave_money">
+                    <input type="checkbox" id="money_limit">
+                </li>
+                <li><label for="ruby_limit">Тратить рубины до:</label>
+                    <input type="number" min="1" step="1" placeholder="Рубины" id="leave_ruby">
+                    <input type="checkbox" id="ruby_limit">
+                </li>
+                <li><button class="duel-menu-btn" onclick="duel_menu.hidden=false;">Открыть дуэльное меню</button></li>
+            </ul>
+        </div>
+    </div>
+    <div id="duel_menu" class="popup-move bot-menu" hidden>
+        <label class="mh-label menu-close" style="position: absolute;right: 0;top: -30px;" onclick="duel_menu.hidden=true;">
+        <svg class="mh-svg">
+            <rect class="svg-rect" x="-3.08" y="9.52" width="28.16" height="2.95"
+                transform="translate(-4.56 11) rotate(-45)" />
+            <rect class="svg-rect" x="9.52" y="-3.08" width="2.95" height="28.16"
+                transform="translate(-4.56 11) rotate(-45)" />
+        </svg>
+        <input type="checkbox" hidden id="close_menu">
+        </label>
+        <ul id="duel_menu_ul" class="bot-ul duel-ppp-ul"></ul>
+    </div>
+    <script>
+        let sections = ['main', 'event', 'duel', 'gxt_list'];
+
+        function menuFunctionsOrder() {
+            sections.forEach(e => {
+                let list = document.querySelector(`#${e}`).children,
+                    gtx = (e === 'gtx_list');
+                $(`#${e}`).sortable({
+                    cursor: 'move',
+                    axis: (gtx ? false : 'y'),
+                    update: () => {
+                        let arr = [];
+                        for (let i = 0; i < list.length; ++i) {
+                            let id = (gtx ? list[i].id : list[i].querySelector('input[type=checkbox]').id);
+                            if (id) {
+                                arr.push(id);
+                            }
+                        }
+                        localStorage.setItem(`${e}_order`, arr);
+                    }
+                });
+            });
+        }
+        let choice_selected = false;
+        (() => {
+            let goal = bot_menu.querySelectorAll('input, select');
+            for (let i = 0; i < goal.length; ++i) {
+                let {
+                    type,
+                    checked,
+                    id,
+                    name,
+                    value,
+                    nextSibling
+                } = goal[i];
+                switch (type) {
+                    case 'checkbox':
+                        goal[i].checked = +localStorage[id];
+                        if (name === 'path') {
+                            if (checked) {
+                                $(`#${value}`).slideToggle(200);
+                                nextSibling.classList.toggle('hidecontent');
+                            }
+                        }
+                        /* Скрытие секции с ивентом */
+                        /* if (value === 'event') {
+                            setTimeout(() => {
+                                const evt = document.querySelector('#event');
+                                for (let i = 0; i < evt.children.length; ++i) {
+                                    evt.children[i].querySelector('input[type=checkbox]').checked = false;
+                                }
+                                evt.hidden = true;
+                                goal[i].parentNode.hidden = true;
+                            });
+                        } */
+                        /* Скрытие секции с дуэльными квестами */
+                        if (value === 'duel_quests') {
+                            setTimeout(() => {
+                                let quests = document.querySelector('#duel_quests');
+                                for (let i = 0; i < quests.children.length; ++i) {
+                                    let checkbox = quests.children[i].querySelector('input[type=checkbox]');
+                                    if (checkbox) {
+                                        checkbox.checked = false;
+                                    }
+                                }
+                                quests.hidden = true;
+                                goal[i].parentNode.hidden = true;
+                            });
+                        }
+                        goal[i].onchange = e => {
+                            let {
+                                name,
+                                value,
+                                nextSibling,
+                                id,
+                                checked
+                            } = e.target;
+                            localStorage[id] = +checked;
+                            if (name === 'path') {
+                                nextSibling.classList.toggle('hidecontent');
+                                $(`#${value}`).slideToggle(200);
+                            } else {
+                                switch (id) {
+                                    case 'setting':
+                                        settings_popup.hidden = !settings_popup.hidden;
+                                        break;
+                                }
+                            }
+                        }
+                        break;
+                    case 'text':
+                    case 'number':
+                        goal[i].onmouseover = () => goal[i].title = value;
+                        goal[i].value = localStorage[id] || '';
+                        goal[i].oninput = e => {
+                            localStorage[e.target.id] = e.target.value;
+                            if (e.target.id === 'a_nicks') {
+                                tailEntranceInput();
+                            }
+                        }
+                        break;
+                    case 'select-one':
+                        goal[i].value = localStorage[id] || goal[i][0].value;
+                        goal[i].onchange = e => {
+                            let {
+                                id,
+                                value
+                            } = e.target;
+                            localStorage[id] = value;
+                            switch (id) {
+                                case 'bug_method':
+                                    bug_nick.hidden = value !== 'on_nick';
+                                    break;
+                                case 'move_method':
+                                    set_nick.hidden = value !== 'on_nick';
+                                    break;
+                            }
+                        }
+                        break;
+                    case 'radio':
+                        if (name == 'choice') {
+                            goal[i].onchange = e => {
+                                let cur = document.querySelector('#cur');
+                                $(cur).siblings('.current_b').removeClass('current_b');
+                                cur.hidden = false;
+                                let {
+                                    parentNode,
+                                    value
+                                } = e.target;
+                                e.target.parentNode.classList.add('current_b');
+                                let inputs = document.querySelector('.inputs');
+                                for (let i = 0; i < inputs.children.length; ++i) {
+                                    inputs.children[i].hidden = true;
+                                }
+                                inputs.children[+value - 1].hidden = false;
+                                r_size.hidden = +value > 2;
+                                e_type.hidden = +value !== 3;
+                                let width = document.querySelector('.current_b').clientWidth;
+                                cur.style.width = `${width}px`;
+                                let cur_width = (+value === 2 ? width + 3 : +value === 3 ? width - 3 : 0);
+                                cur.style.marginLeft = `${(+value - 1) * cur_width}px`;
+                                (+value == 1 ? l_num : +value == 2 ? l_text : a_nicks).hidden = false;
+                                entry.hidden = false;
+                                localStorage.choice = value;
+                            }
+                            if (auto_start.checked && localStorage.choice && !choice_selected) {
+                                choice_selected = true;
+                                setTimeout(() => document.querySelectorAll('input[name=choice]')[localStorage.choice - 1].parentNode.click());
+                            }
+                        }
+                        break;
+                }
+            }
+            let tasks = duel_menu.querySelectorAll('select');
+            for (let i = 0; i < tasks.length; ++i) {
+                tasks[i].value = localStorage[tasks[i].id] || tasks[i][0].value;
+                tasks[i].onchange = e => localStorage[e.target.id] = e.target.value;
+            }
+            if (+move_method.value == 1) set_nick.hidden = false;
+            if (+bug_method.value == 3) player_nick.hidden = false;
+            if (setting.checked) settings_popup.hidden = false;
+            sections.forEach(e => {
+                let order = localStorage.getItem(`${e}_order`);
+                if (order) {
+                    order.split(',').forEach((_e, _i) => {
+                        let list = document.querySelector(`#${e}`).children;
+                        for (let i = 0; i < list.length; ++i) {
+                            let id = list[i].querySelector('input[type=checkbox]').id;
+                            if (_e == id) {
+                                list[i].parentNode.insertBefore(list[i], list[_i]);
+                            }
+                        }
+                    });
+                }
+            });
+            menuFunctionsOrder();
+        })();
+    </script>
+</body>
+
+</html>

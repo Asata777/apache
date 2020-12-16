@@ -1,0 +1,31 @@
+<app-sidebar></app-sidebar>
+<div id="main_area" class="tops">
+    <h3 class="tops-title">
+        <i class="top-ico" [style.background]="ico" [hidden]="hideIco"></i> {{top_title}}
+    </h3>
+    <p>Выберите категорию:
+        <select class="top-select" [(ngModel)]="topCategory" (change)="getTops(topCategory);">
+            <option [value]="null" disabled>Выберите</option>
+            <option *ngFor="let top of keys();" [value]="top">{{tops_names[top].name}}</option>
+        </select>
+    </p>
+    <ul class="top_info" [hidden]="hideTopInfo">
+        <li>
+            <div class="user-place title">#</div>
+            <div class="user-nick title">Ник</div>
+            <div class="user-count title">{{count_name}}</div>
+        </li>
+        <li class="not-founded" [hidden]="hideNotFounded">
+            <h3>Никого не найдено!</h3>
+        </li>
+        <li *ngFor="let user of users; let i = index;">
+            <div class="place">{{i + 1}}</div>
+            <div class="online" title="Игрок онлайн" [style.background]="user.online ? 'url(/assets/bestmafia/online.svg)' : ''">
+            </div>
+            <div class="nick">{{user.nick}}</div>
+            <div class="count">{{user.count}}</div>
+            <div class="count-change"></div>
+        </li>
+    </ul>
+    <div id="loading" [hidden]="hideLoading"></div>
+</div>
