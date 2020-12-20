@@ -22,7 +22,6 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors());
 
-
 app.use('/bestmafia', bestmafia);
 app.use('/', main);
 app.set('trust proxy', 1);
