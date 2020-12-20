@@ -3,7 +3,7 @@ import { getUrl } from '../controllers/auxiliary';
 const router = express.Router();
 router.get('*', (req, res) => {
     // res.sendFile(getUrl(__dirname, '../../dist/index.html'));
-    res.send('takoyevsdf')
+    res.send('takovsdf')
 });
 
 export { router as main };
