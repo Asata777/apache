@@ -15,6 +15,7 @@ import { bestmafia } from './router/bestmafia';
 import { main } from './router/main';
 KeepAlive();
 const app = express();
+
 app.use(express.static(getUrl(__dirname, '../public')));
 app.use(express.static(getUrl(__dirname, '../dist')));
 
