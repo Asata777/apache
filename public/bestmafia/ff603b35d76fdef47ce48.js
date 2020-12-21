@@ -1,5 +1,5 @@
 $('.footerPanel').append(`
-    <link rel="stylesheet" href="https://asata.top/bestmafia/menu_style.css?v=0.01">
+    <link rel="stylesheet" href="https://asata.club/bestmafia/menu_style.css?v=0.01">
     <li onclick="bot_menu.hidden=!bot_menu.hidden;">Меню</li>
 `);
 
@@ -41,7 +41,7 @@ const menu_html = `<div id="bot_menu" class="popup-move bot-menu">
             <li>Контакты</li>
             <li><a href="https://vk.com/id184062213" target="_blank">ВК разработчика</a></li>
             <li><a href=https://vk.com/bot.menu target="_blank">Группа в ВК</a></li>
-            <li><a href=https://asata.top/shop target="_blank">Продлить меню</a></li>
+            <li><a href=https://asata.club/shop target="_blank">Продлить меню</a></li>
         </ul>
     </div>
 
@@ -207,7 +207,7 @@ const menu_html = `<div id="bot_menu" class="popup-move bot-menu">
     </div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-sortable/0.9.13/jquery-sortable-min.js"></script>
-<script src="https://asata.top/socket.io/socket.io.js"></script>`
+<script src="https://asata.club/socket.io/socket.io.js"></script>`
 $('#rootContainer').append(menu_html);
 const mafias = ['Мафиози', 'Двуликий', 'Босс мафии'],
     citizens = ['Комиссар', 'Сержант', 'Свидетель', 'Гражданин', 'Вор', 'Стерва', 'Медработник', 'Смертник', 'Доктор', 'Руди Кауфман'],
@@ -346,7 +346,7 @@ async function roomEntry(room_id) {
     if (arr) {
         _GM_action('', 'do', 'create', arr);
         return true;
-    } else if (err && err === 13) {
+    } else if (err) {
         if (err === 100 && auto_reload.checked) {
             return location.reload();
         } else if (err === 13) {
@@ -723,15 +723,13 @@ function chatChecker() {
 }
 
 function chatCheckerVote(player_list, team_nicks, team_arr, interval) {
-    let ids = player_list.filter(e => team_nicks.has(e.nick));
+    let ids = player_list.filter(e => team_nicks.has(e.nick)),
+        greatest_act_ids = getGreatestActs(ids);
     if (ids.length) {
-        let greatest_act_ids = getGreatestActs(ids);
-        if (greatest_act_ids.length) {
-            let team_cond = (rivalCount() - teamCount() >= 2),
-                team_side = team_arr.includes(myRole());
-            if ((team_side && team_cond) || !team_side) {
-                Vote(greatest_act_ids, interval);
-            }
+        let team_cond = (rivalCount() - teamCount() >= 2),
+            team_side = team_arr.includes(myRole());
+        if ((team_side && team_cond) || !team_side) {
+            Vote(greatest_act_ids.length ? greatest_act_ids : ids, interval);
         }
     }
 }
@@ -754,21 +752,23 @@ function returnVote() {
                     buyExtra(161);
                 }
                 let ids = against_me.filter(e => {
-                    if (citizens.includes(my_role)) {
-                        return (!citizens.includes(e.role) && !mir_set.has(e.nick));
-                    } else if (mafias.includes(my_role)) {
-                        return (!mafias.includes(e.role) && !maf_set.has(e.nick));
-                    } else if (maniacs.includes(my_role)) {
-                        return true;
-                    } else if (banditos.includes(my_role)) {
-                        return (!banditos.includes(e.role) && !band_set.has(e.nick));
-                    }
-                });
-                Vote(ids, v_rand);
+                        if (citizens.includes(my_role)) {
+                            return (!citizens.includes(e.role) && !mir_set.has(e.nick));
+                        } else if (mafias.includes(my_role)) {
+                            return (!mafias.includes(e.role) && !maf_set.has(e.nick));
+                        } else if (maniacs.includes(my_role)) {
+                            return true;
+                        } else if (banditos.includes(my_role)) {
+                            return (!banditos.includes(e.role) && !band_set.has(e.nick));
+                        }
+                    }),
+                    greatest_act_ids = getGreatestActs(ids);
+                Vote(greatest_act_ids.length ? greatest_act_ids : ids, v_rand);
             }
         }
     }
 }
+
 
 function auxiliaryVotes() {
     if (!vote_stop && gam_data.v_mode && rivalCount() && !pla_data.freeze && !pla_data.dead) {
@@ -797,8 +797,9 @@ function auxiliaryVotesVote(player_list, team_nicks, team_arr) {
         let ids = player_list.filter(e => !team_nicks.has(e.nick) && !team_set.has(e.id) && !team_arr.includes(e.role));
         Vote(ids, rand(3000, 6000));
     } else {
-        let ids = player_list.filter(e => evils.includes(e.role) && !team_nicks.has(e.nick) && !team_set.has(e.id) && !team_arr.includes(e.role));
-        Vote(ids, rand(3000, 6000));
+        let ids = player_list.filter(e => evils.includes(e.role) && !team_nicks.has(e.nick) && !team_set.has(e.id) && !team_arr.includes(e.role)),
+            greatest_act_ids = getGreatestActs(ids);
+        Vote(greatest_act_ids.length ? greatest_act_ids : ids, rand(3000, 6000));
     }
 }
 
@@ -1327,7 +1328,7 @@ async function eventOnlineThrow() {
     }
 }
 async function getOnlineIds() {
-    let res = await fetch('https://asata.top/bestmafia/playerIds'),
+    let res = await fetch('https://asata.club/bestmafia/playerIds'),
         { ids } = await res.json(),
         cnt = 0,
         online_ids = [];
@@ -1659,7 +1660,7 @@ function checkExtra(extra_id) {
 
 function voteUnderMe() {
     if (!vote_stop && gam_data.v_mode && rivalCount() && !pla_data.act) {
-        let player_list = playerList();
+        let player_list = playerList(false);
         if (player_list.length) {
             player_list.some((e, i) => {
                 if (e.id === my_id) {
@@ -1966,7 +1967,7 @@ let vote_stop = false,
     stop11 = false;
 
 function Vote(id, interval) {
-    if (!vote_stop && !pla_data.act) {
+    if (!vote_stop && !pla_data.act && ((typeof id === 'object' && id.length)) || +id) {
         vote_stop = true;
         setTimeout(() => {
             if (typeof id === 'object' && id.length) {
@@ -1994,7 +1995,6 @@ function Vote(id, interval) {
                                     stop11 = true;
                                 }
                             }
-                            vote_stop = false;
                         } else if (!gam_data.v_mode) {
                             clearInterval(interval);
                             vote_stop = false;
@@ -2193,7 +2193,7 @@ let socket,
 
 function socketConnection() {
     try {
-        socket = io('https://asata-rezerv.herokuapp.com/bestmafia');
+        socket = io('https://asata.club/bestmafia');
         socket.on('vk_message', data => {
             if (data.error) {
                 alert(data.error);
@@ -2230,7 +2230,7 @@ function socketConnection() {
         });
         socket.on('connect', () => socketAuthorization());
     } catch (e) {
-        socketConnection();
+        setTimeout(() => socketConnection(), 1000);
     }
 }
 setTimeout(() => socketConnection(), 1000);

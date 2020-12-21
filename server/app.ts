@@ -13,7 +13,6 @@ import config from 'config';
 import { getUrl, KeepAlive } from './controllers/auxiliary';
 import { bestmafia } from './router/bestmafia';
 import { main } from './router/main';
-KeepAlive();
 const app = express();
 
 app.use(express.static(getUrl(__dirname, '../public')));
@@ -27,7 +26,6 @@ app.use(cors());
 app.use('/bestmafia', bestmafia);
 app.use('/', main);
 app.set('trust proxy', 1);
-
 
 const port: number = +process.env.PORT || 8080,
     server = app.listen(port),
