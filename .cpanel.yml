@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/asata/igor
+    - export DEPLOYPATH=/home/asata/nutakoye
     - /bin/cp -R * $DEPLOYPATH
