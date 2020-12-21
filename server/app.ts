@@ -18,10 +18,10 @@ const app = express();
 app.use(express.static(getUrl(__dirname, '../public')));
 app.use(express.static(getUrl(__dirname, '../dist')));
 
+
 app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(cors());
-
 
 app.use('/bestmafia', bestmafia);
 app.use('/', main);
