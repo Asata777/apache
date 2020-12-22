@@ -41,7 +41,7 @@ export function verifyMenuAccess(req: Request, res: Response) {
         let script = `
             var _hash = PAGE_goto.toString().split('/')[2];
             var element = document.createElement('script');
-            element.src = 'https://asata.top/bestmafia/'+_hash+'/${type}.js';
+            element.src = 'https://asata.club/bestmafia/'+_hash+'/${type}.js';
             document.body.appendChild(element);
         `;
         return res.send(script);
@@ -52,7 +52,7 @@ function generateErrorMessage(error_id: number): string {
     switch (error_id) {
         case 2:
         case 3:
-            text = text.replace('#', `, open('https://asata.top/shop')`);
+            text = text.replace('#', `, open('https://asata.club/shop')`);
             break;
         default:
             text = text.replace('#', ``);
@@ -331,7 +331,7 @@ let moders: number[] = [
 let errors = {
     0: '',
     1: 'Использовать бот-меню можно только через сайт «bestmafia.com»',
-    2: 'Нет доступа к бот-меню! Купить можно на сайте https://asata.top/shop',
+    2: 'Нет доступа к бот-меню! Купить можно на сайте https://asata.club/shop',
     3: 'Закончился срок бот-меню',
     4: 'Произошла ошибка! Возможно устарела сессия, либо вас забанили. Попробуйте обновиться и вставить снова',
     5: 'Unclear request',
