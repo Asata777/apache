@@ -28,8 +28,4 @@ router.get('/:hash/:type.js', (req, res) => {
     botMenu(req, res)
 });
 
-router.get('/test', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/bestmafia/free.js'));
-});
-
 export { router as bestmafia };

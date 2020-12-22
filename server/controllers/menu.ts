@@ -1,11 +1,10 @@
 import httpRequest from './xhr';
-import { getUrl } from './auxiliary';
+// import { getUrl } from './auxiliary';
 import mongoose from 'mongoose';
 import freeSchema, { FreeModel, FreeAccountModel } from '../models/free';
 import paidSchema, { PaidModel } from '../models/paid';
 import { Request, Response } from 'express';
 import path from 'path';
-console.log(getMenuUrl('ff603b35d76fdef47ce48'))
 export async function botMenu(req: Request, res: Response) {
     let { type } = req.params;
     if (type) {
