@@ -4,7 +4,8 @@ import mongoose from 'mongoose';
 import freeSchema, { FreeModel, FreeAccountModel } from '../models/free';
 import paidSchema, { PaidModel } from '../models/paid';
 import { Request, Response } from 'express';
-
+import path from 'path';
+console.log(getMenuUrl('ff603b35d76fdef47ce48'))
 export async function botMenu(req: Request, res: Response) {
     let { type } = req.params;
     if (type) {
@@ -61,7 +62,7 @@ function generateErrorMessage(error_id: number): string {
 }
 
 function getMenuUrl(name: string): string {
-    return getUrl(__dirname, `../../public/bestmafia/${name}.js`);
+    return path.join(__dirname, `../../public/bestmafia/${name}.js`);
 }
 
 async function checkPaidMenu(req: Request): Promise<number> {

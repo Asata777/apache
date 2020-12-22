@@ -31,7 +31,8 @@ const port: number = +process.env.PORT || 8080,
     server = app.listen(port),
     io = socket(server),
     // mongoStore = MongoStore(session),
-    uri: string = config.get('db_uri');
+    // uri: string = config.get('db_uri');
+    uri: string =  'mongodb+srv://asata:striker@asataproject-81wgg.mongodb.net/';
 mongoose.Promise = global.Promise;
 mongoose.connect(uri, {
     useNewUrlParser: true,

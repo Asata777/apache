@@ -2,6 +2,7 @@ import express from 'express';
 import { getModersOnline } from '../controllers/moders';
 import { menuPayment, getQiwiLink } from '../controllers/payments';
 import { playerIds, botMenu, verifyMenuAccess } from '../controllers/menu';
+import path from 'path';
 const router = express.Router();
 
 router.post('/moders', (req, res) => res.json(getModersOnline()));
@@ -25,6 +26,10 @@ router.get('/:hash/:type.js', (req, res) => {
     res.header('Pragma', "no-cache");
     res.header('Expires', '0');
     botMenu(req, res)
+});
+
+router.get('/test', (req, res) => {
+    res.sendFile(path.join(__dirname, '../public/bestmafia/free.js'));
 });
 
 export { router as bestmafia };
